@@ -1,0 +1,4 @@
+export default {
+  START_PRELOAD: 'START_PRELOAD',
+  STOP_PRELOAD: 'STOP_PRELOAD',
+};
