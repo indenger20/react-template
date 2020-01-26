@@ -1,27 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import { GeneralActions } from './actions';
-
 import Layout from './Components/Layout/Layout';
 
 import routes from './routes';
-import { IUserState, IApplicationState } from './interfaces';
-
-const mapStateToProps = (state: IApplicationState) => {
-  return {
-    user: state.user,
-    isLoading: state.document.isLoading,
-  };
-};
-
-interface IAppProps {
-  user: IUserState;
-  isLoading: boolean;
-}
+import { IApplicationState } from './interfaces';
 
 const PrivateRoute = (props: any) => {
   const { component: Component, isAuth, ...rest } = props;
@@ -42,7 +27,12 @@ const PrivateRoute = (props: any) => {
   );
 };
 
-function App(props: IAppProps) {
+function App() {
+  const { user, isLoading } = useSelector((state: IApplicationState) => ({
+    user: state.user,
+    isLoading: state.document.isLoading,
+  }));
+
   const renderRoute = (route: any, idx: number) => {
     return (
       <Route
@@ -54,7 +44,6 @@ function App(props: IAppProps) {
     );
   };
 
-  const isLoading = props.isLoading;
   return (
     <div className="App">
       {routes.filter(r => r.name === 'Login').map((r, i) => renderRoute(r, i))}
@@ -65,7 +54,4 @@ function App(props: IAppProps) {
   );
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(App);
+export default App;

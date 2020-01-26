@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { INavigation, IApplicationState } from '../../interfaces';
 import './AsideNav.scss';
@@ -9,17 +9,8 @@ import navigation from '../../_nav';
 
 import { HomeIcon, BurgerIco } from '../icons';
 
-const mapStateToProps = (state: IApplicationState) => {
-  return {
-    router: state.router,
-  };
-};
-
-interface IAsideNavProps {
-  router: any;
-}
-
-function AsideNav(props: IAsideNavProps) {
+function AsideNav() {
+  const router = useSelector((state: IApplicationState) => state.router);
   const [isOpen, toggle] = useState(true);
 
   const getIcon = (name: string, className: string) => {
@@ -50,7 +41,7 @@ function AsideNav(props: IAsideNavProps) {
       </div>
       <ul className="aside-nav__list">
         {navigation.map((n: INavigation) => {
-          const isActive = props.router.location.pathname.includes(n.url);
+          const isActive = router.location.pathname.includes(n.url);
           return (
             <li
               className={`aside-nav__item ${
@@ -70,7 +61,4 @@ function AsideNav(props: IAsideNavProps) {
   );
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(AsideNav);
+export default AsideNav;
